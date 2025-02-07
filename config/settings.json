@@ -1,0 +1,14 @@
+{
+    "kafka": {
+        "bootstrap_servers": "localhost:9092",
+        "topic": "server-logs"
+    },
+    "elasticsearch": {
+        "host": "http://localhost:9200",
+        "index": "logs"
+    },
+    "llama2": {
+        "model_name": "meta-llama/Llama-2-7b-chat-hf",
+        "max_length": 50
+    }
+}
