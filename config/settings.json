@@ -1,14 +1,23 @@
 {
+    // Konfiguration für Kafka
     "kafka": {
+        // Adresse des Kafka-Servers
         "bootstrap_servers": "localhost:9092",
+        // Kafka-Thema für Server-Logs
         "topic": "server-logs"
     },
+    // Konfiguration für Elasticsearch
     "elasticsearch": {
+        // Adresse des Elasticsearch-Servers
         "host": "http://localhost:9200",
+        // Index für Logs in Elasticsearch
         "index": "logs"
     },
+    // Konfiguration für Llama2
     "llama2": {
+        // Name des Llama2-Modells
         "model_name": "meta-llama/Llama-2-7b-chat-hf",
+        // Maximale Länge der Ausgabe
         "max_length": 50
     }
 }

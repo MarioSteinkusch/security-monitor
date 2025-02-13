@@ -1,45 +1,46 @@
-apiVersion: apps/v1
-kind: Deployment
+# elasticsearch-deployment.yaml
+apiVersion: apps/v1 # Definiert die API-Version für die Erstellung eines Deployments
+kind: Deployment # Der Typ der Ressource ist ein Deployment
 metadata:
-  name: elasticsearch
+  name: elasticsearch # Der Name des Deployments ist "elasticsearch"
   labels:
-    app: elasticsearch
+    app: elasticsearch # Ein Label zur Identifikation der App
 spec:
-  replicas: 1
+  replicas: 1 # Anzahl der gewünschten Pod-Replikate
   selector:
     matchLabels:
-      app: elasticsearch
+      app: elasticsearch # Selektor, um die Pods mit dem Label "app: elasticsearch" auszuwählen
   template:
     metadata:
       labels:
-        app: elasticsearch
+        app: elasticsearch # Label für die Pods, die durch dieses Deployment erstellt werden
     spec:
       containers:
-      - name: elasticsearch
-        image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
+      - name: elasticsearch # Name des Containers
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1 # Docker-Image für Elasticsearch
         env:
         - name: discovery.type
-          value: "single-node"
+          value: "single-node" # Setzt den Elasticsearch-Cluster in den Single-Node-Modus
         - name: ES_JAVA_OPTS
-          value: "-Xms512m -Xmx512m"
+          value: "-Xms512m -Xmx512m" # Setzt die Java-Heap-Größe für Elasticsearch
         ports:
-        - containerPort: 9200
+        - containerPort: 9200 # Der Container-Port, der freigegeben wird
         volumeMounts:
-        - name: es-data
-          mountPath: /usr/share/elasticsearch/data
+        - name: es-data # Name des Volumes, das gemountet wird
+          mountPath: /usr/share/elasticsearch/data # Pfad im Container, wo das Volume gemountet wird
       volumes:
-      - name: es-data
-        emptyDir: {}
+      - name: es-data # Definition des Volumes
+        emptyDir: {} # Temporäres Verzeichnis, das beim Neustart des Pods gelöscht wird
 ---
-apiVersion: v1
-kind: Service
+apiVersion: v1 # Definiert die API-Version für die Erstellung eines Services
+kind: Service # Der Typ der Ressource ist ein Service
 metadata:
-  name: elasticsearch
+  name: elasticsearch # Der Name des Services ist "elasticsearch"
 spec:
   selector:
-    app: elasticsearch
+    app: elasticsearch # Selektor, um die Pods mit dem Label "app: elasticsearch" auszuwählen
   ports:
-    - protocol: TCP
-      port: 9200
-      targetPort: 9200
-  type: ClusterIP
+    - protocol: TCP # Das verwendete Protokoll ist TCP
+      port: 9200 # Der Port, auf dem der Service erreichbar ist
+      targetPort: 9200 # Der Port im Container, auf den der Traffic weitergeleitet wird
+  type: ClusterIP # Der Typ des Services ist ClusterIP, was bedeutet, dass der Service nur innerhalb des Clusters erreichbar ist
